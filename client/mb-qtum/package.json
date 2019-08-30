@@ -1,31 +1,35 @@
 {
   "name": "mb-qtum",
   "version": "0.1.0",
-  "description": "NFT privacy application",  
+  "description": "NFT privacy application",
   "author": "willpark",
   "license": "MIT",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build:local": "ENV=LOCAL webpack --config webpack.prod.config.js",
+    "build:prod": "ENV=PROD webpack --config webpack.prod.config.js",
+    "local": "ENV=LOCAL node ./frontserver.js webpack.config.js --watch",
+    "prod": "ENV=PROD node ./frontserver.js webpack.prod.config.js --watch",
+    "start": "ENV=PROD node ./frontserver.js webpack.prod.config.js --watch",
+    "start:local": "ENV=LOCAL node ./frontserver.js webpack.prod.config.js --watch"
+  },
+  "repository": {
+    "type": "git"
   },
   "dependencies": {
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-redux": "^6.0.0",
-    "react-scripts": "3.0.1",
-    "react-router": "^4.3.1",
-    "react-router-redux": "^4.0.8",
-    "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0",
     "classnames": "^2.2.5",
     "dotenv": "^6.0.0",
     "dotenv-webpack": "^1.5.7",
-    "moment": "^2.23.0"
+    "moment": "^2.23.0",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "react-redux": "^6.0.0",
+    "react-router": "^4.3.1",
+    "react-router-redux": "^4.0.8",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -59,26 +63,11 @@
     "webpack-dev-middleware": "^3.4.0",
     "webpack-dev-server": "^3.1.14",
     "webpack-hot-middleware": "^2.22.1"
-  },  
-  "repository": {
-    "type": "git"
   },
   "eslintConfig": {
     "env": {
       "browser": true,
       "node": true
     }
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   }
 }
