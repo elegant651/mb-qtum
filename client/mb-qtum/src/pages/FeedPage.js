@@ -1,10 +1,11 @@
 import React from 'react'
+import Feed from 'components/Feed'
 
 import './FeedPage.scss'
 
 const FeedPage = () => (
   <main className="FeedPage">
-    FeedPage
+    <Feed />
   </main>
 )
 
