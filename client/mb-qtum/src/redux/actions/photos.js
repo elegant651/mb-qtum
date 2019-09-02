@@ -46,3 +46,8 @@ export const uploadPhoto = (
     //uploadPhoto to IPFS
   }
 }
+
+export const transferOwnership = (tokenId, to) => (dispatch) => {
+  console.log('transferOwnership')
+}
+
