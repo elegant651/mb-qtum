@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import Loading from 'components/Loading'
+import PhotoHeader from 'components/PhotoHeader'
+import PhotoInfo from 'components/PhotoInfo'
 
 import * as photoActions from 'redux/actions/photos'
 
@@ -48,7 +50,7 @@ class Feed extends Component {
             
             return (
               <div className="FeedPhoto" key={id}>
-                FeedPhoto 
+                FeedPhoto {name} , {location}
               </div>
             )
           })
