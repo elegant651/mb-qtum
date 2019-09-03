@@ -3,9 +3,9 @@ module.exports = (app, key) => {
   const { Qtum } = require('qtumjs')
   const repoData = require("./contracts/solar.development.json")
 
-  const qtum = new Qtum("http://qtum:test@localhost:4889", repoData)
+  const qtum = new Qtum("http://qtum:test@localhost:3889", repoData)
 
-  const mimbleToken = qtum.contract('MimbleToken.sol')
+  const mimbleToken = qtum.contract('server/contracts/MimbleToken.sol')
 
   const decimals = 8
   function tokenAmount(bnumber) {
