@@ -29,7 +29,8 @@ function respCorsHeader(req,res) {
 
 const fs = require('fs')
 const key = JSON.parse(fs.readFileSync('./.key', 'utf8'))
-require('./api')(app, key);
+// require('./api')(app, key);
+require('./privtransfer_api')(app, key)
 
 const server = app.listen(3000, function(){
   console.log('server is running on port 3000')

@@ -1,12 +1,15 @@
-module.exports = function(app, key) {
+module.exports = async (app, key)  => {
   const { Qtum } = require('qtumjs')
   const Web3 = require('web3')
   const web3 = new Web3()
   const repoData = require("./contracts/solar.development.json")
 
   const qtum = new Qtum("http://qtum:test@localhost:3889", repoData)
+  // const rpc = new QtumRPC("http://qtum:test@localhost:3889")
 
   const pvTransfer = qtum.contract('server/contracts/PrivacyTransfer.sol')
+  // const pvTransfer = new Contract(rpc. repoData.contracts[""])
+
 
   function getHexAddres(address) {
     const bs58check = require('bs58check')
@@ -57,7 +60,7 @@ module.exports = function(app, key) {
   app.get('/api/getTotalPhotoCount', async (req, res) => {
     let result = await pvTransfer.call("getTotalPhotoCount")
 
-    res.json({"count": result.outputs[0]})
+    res.json({"count": result.outputs[0].toNumber()})
   })
 
   app.get('/api/getPhoto/:tokenId', async (req, res) => {
@@ -66,7 +69,13 @@ module.exports = function(app, key) {
     
     let jboj = {}
     let result = await pvTransfer.call("getPhoto", [tokenId])
-    [jobj.tokenId, jobj.ownerHistory, jobj.photo, jobj.title, jobj.location, jobj.description, jobj.timestamp] = ...result.outputs
+    jobj.tokenId = result.outputs[0]
+    jobj.ownerHistory = result.outputs[1]
+    jobj.photo = result.outputs[2]
+    jobj.title = result.outputs[3]
+    jobj.location - result.outputs[4]
+    jobj.description = result.outputs[5]
+    jobj.timestamp = result.outputs[6]    
     
     res.json(jobj)
   })
@@ -75,10 +84,10 @@ module.exports = function(app, key) {
   async function streamEvents() {
     console.log("Subscribed to contract events")    
 
-    lineup.onLog((entry) => {
+    pvTransfer.onLog((entry) => {
       console.log(entry)
     }, { minconf: 1 })
-  }
+  }  
 
   //event logs
   streamEvents()
