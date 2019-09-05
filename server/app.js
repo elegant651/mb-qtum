@@ -18,10 +18,36 @@ app.use(function(req,res,next){
 	next();
 });
 
+app.options('/api/uploadPhoto', (req,res,next) => {
+	respCorsHeader(req,res)
+	res.send()
+})
+app.options('/api/uploadPhotoWithLink', (req,res,next) => {
+	respCorsHeader(req,res)
+	res.send()
+})
+app.options('/api/transferOwnership', (req,res,next) => {
+	respCorsHeader(req,res)
+	res.send()	
+})
+app.options('/api/transferFrom', (req,res,next) => {
+	respCorsHeader(req,res)
+	res.send()	
+})
+app.options('/api/getTotalPhotoCount', (req,res,next) => {
+	respCorsHeader(req,res)
+	res.send()	
+})
+app.options('/api/getPhoto', (req,res,next) => {
+	respCorsHeader(req,res)
+	res.send()
+})
+
+
 function respCorsHeader(req,res) {
 	// res.header("Access-Control-Allow-Origin", req.protocol+"://" + apiinfo.origin_domain);
 	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Headers", "X-Requested-With");
+	res.header("Access-Control-Allow-Headers", 'Content-Type, Authorization, Content-Length, X-Requested-With');
 	res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
 	res.header("Access-Control-Allow-Credentials", true);
 	return res;

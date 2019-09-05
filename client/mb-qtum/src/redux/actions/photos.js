@@ -11,7 +11,7 @@ const setFeed = (feed) => ({
   payload: { feed },
 })
 
-const updateFeed = (tokenId) => (dispatch, getState) => {
+const updateFeed = (tokenId) => async (dispatch, getState) => {
   const newPhoto = await axios.get(`${SERVER_ENDPOINT}/api/getPhoto/${tokenId}`)
   const { photos: { feed }} = getState()
   const newFeed = [newPhoto, ...feed]
@@ -31,11 +31,12 @@ const updateOwnerAddress = (tokenId, to) => (dispatch, getState) => {
 // API functions
 
 export const getFeed = () => async (dispatch) => {
-
-  console.log('getFeed')
-  const totalCount = await axios.get(`${SERVER_ENDPOINT}/api/getTotalPhotoCount`)
+  
+  const totalCountBody = await axios.get(`${SERVER_ENDPOINT}/api/getTotalPhotoCount`)
+  console.log('getFeed', totalCountBody)
+  const totalCount = totalCountBody.data.count
   const feed = []
-  if (!totalCount) {
+  if (!totalCount || totalCount==0) {
     //mock data
     feed.push({
       'id': 1,
@@ -51,7 +52,7 @@ export const getFeed = () => async (dispatch) => {
       const photo = await axios.get(`${SERVER_ENDPOINT}/api/getPhoto/${i}`)
       feed.push(photo)
     }    
-  }
+  }  
   
   dispatch(setFeed(feed))
 }
@@ -65,19 +66,33 @@ export const uploadPhoto = (
 ) => async (dispatch) => {
   const reader = new window.FileReader()
   reader.readAsArrayBuffer(file)
-  reader.onloadend = () => {
+  reader.onloadend = async () => {
     const buffer = Buffer.from(reader.result)
-    /**
-     * Add prefix `0x` to hexString
-     * to recognize hexString as bytes by contract
-     */
-    const hexPhoto = "0x" + buffer.toString('hex')
+    
+    const hexPhoto = "0x" + buffer.toString('hex')    
     const result = await axios.post(`${SERVER_ENDPOINT}/api/uploadPhoto`, {photo: hexPhoto, title: fileName, location, description: caption})    
+    console.log('result', result)
     //event listener
-    const totalCount = await axios.get(`${SERVER_ENDPOINT}/api/getTotalPhotoCount`)
-    const newTokenId = totalCount+1
+    const totalCount = await axios.get(`${SERVER_ENDPOINT}/api/getTotalPhotoCount`)    
+    const newTokenId = totalCount.data.count+1
+    console.log('newTokenId', newTokenId)
     dispatch(updateFeed(newTokenId))
   }
+}
+
+
+export const uploadPhotoWithLink = (
+  photo, 
+  location,
+  caption
+) => async (dispatch) => {      
+  const result = await axios.post(`${SERVER_ENDPOINT}/api/uploadPhotoWithLink`, {photo, location, description: caption})
+  console.log('result', result)
+  //event listener
+  const totalCount = await axios.get(`${SERVER_ENDPOINT}/api/getTotalPhotoCount`)
+  const newTokenId = totalCount.data.count+1
+  console.log('newTokenId', newTokenId)
+  dispatch(updateFeed(newTokenId))  
 }
 
 export const transferOwnership = (tokenId, to) => async (dispatch) => {

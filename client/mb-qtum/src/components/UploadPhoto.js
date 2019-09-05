@@ -18,6 +18,7 @@ class UploadPhoto extends Component {
   state = {
     file: '',
     fileName: '',
+    photo: '',
     location: '',
     caption: '',
     warningMessage: '',
@@ -52,8 +53,11 @@ class UploadPhoto extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    const { file, fileName, location, caption } = this.state
-    this.props.uploadPhoto(file, fileName, location, caption)
+    // const { file, fileName, location, caption } = this.state
+    // this.props.uploadPhoto(file, fileName, location, caption)
+    const { photo, location, caption } = this.state
+    this.props.uploadPhotoWithLink(photo, location, caption)
+
     ui.hideModal()
   }
 
@@ -74,7 +78,7 @@ class UploadPhoto extends Component {
   }
 
   render() {
-    const { fileName, location, caption, isCompressing, warningMessage } = this.state
+    const { fileName, photo, location, caption, isCompressing, warningMessage } = this.state
     return (
       <form className="UploadPhoto" onSubmit={this.handleSubmit}>
         <InputFile
@@ -85,7 +89,14 @@ class UploadPhoto extends Component {
           onChange={this.handleFileChange}
           err={warningMessage}
           accept=".png, .jpg, .jpeg"
-          required
+        />
+        <Input
+          className="UploadPhoto__photo"
+          name="photo"
+          label="Photo Link"
+          value={photo}
+          onChange={this.handleInputChange}
+          placeholder="Photo link"        
         />
         <Input
           className="UploadPhoto__location"
@@ -118,6 +129,8 @@ class UploadPhoto extends Component {
 const mapDispatchToProps = (dispatch) => ({
   uploadPhoto: (file, fileName, location, caption) =>
     dispatch(photoActions.uploadPhoto(file, fileName, location, caption)),
+  uploadPhotoWithLink: (photo, location, caption) =>
+    dispatch(photoActions.uploadPhotoWithLink(photo, location, caption)),
 })
 
 export default connect(null, mapDispatchToProps)(UploadPhoto)

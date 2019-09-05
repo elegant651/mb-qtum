@@ -1,5 +1,7 @@
 module.exports = async (app, key)  => {
   const { Qtum } = require('qtumjs')
+  const IPFS = require('ipfs')
+  const ipfs = await IPFS.create()
   const Web3 = require('web3')
   const web3 = new Web3()
   const repoData = require("./contracts/solar.development.json")
@@ -22,9 +24,27 @@ module.exports = async (app, key)  => {
     const photo = req.body.photo
     const title = req.body.title
     const location = req.body.location
-    const description = req.body.description
+    const description = req.body.description    
 
-    const tx = await pvTransfer.send("uploadPhoto", [photo, title, location. description])
+    // const content = IPFS.Buffer.from(photo)
+    // const ipfsResult = await ipfs.add(content)
+    // const hash = ipfsResult[0].hash
+    // console.log('hash', hash)
+    
+    const tx = await pvTransfer.send("uploadPhoto", [photo, title, location, description])
+    const result = await tx.confirm(1)
+    console.log(result)
+    res.json({
+      'result': result
+    })
+  })
+
+  app.post('/api/uploadPhotoWithLink', async (req, res) => {
+    const photo = req.body.photo    
+    const location = req.body.location
+    const description = req.body.description
+    
+    const tx = await pvTransfer.send("uploadPhoto", ['0x', photo, location, description])
     const result = await tx.confirm(1)
     console.log(result)
     res.json({
