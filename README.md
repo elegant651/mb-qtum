@@ -1,6 +1,18 @@
-# Qtum Project for Qtum Hack 2019
+# Privacy photo license service, which is NFT based
 
-## Generate QRC-20 based privacy token
+Think of a service that allows you to upload photos you want to share freely and sell those licenses to others. <br>
+Anyone can post pictures, but their identities are unknown, and they focus only on transactions when buying and selling. It works by privacy technology. <br>
+In the past, there were the following problems. <br>
+1.Users could not claim the rights to the pictures they posted. <br>
+2.There was no marketplace to buy and sell good pictures in cheap and transparent ways. <br>
+3.As one's identity is revealed, sharing is not free. <br>
+4.Unnecessary transaction history remains, resulting in privacy issues. <br>
+Qtum with privacy technology can be used to solve this problem. <br>
+1.Non Fungible Token (NFT) allows you to record a license for a photograph in a blockchain, which is open to everyone. <br>
+2.The company cannot deduct the fees at will, and arbitrates them in a transparent smart contract. <br>
+3. Freely share your photos by hiding your identity and focusing on the transaction. <br>
+4.There is no need to reveal transaction history and leave behind sensitive personal information.
+
 
 ## Run client
 
